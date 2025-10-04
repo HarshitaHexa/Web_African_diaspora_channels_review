@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #171717;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  width: 100vw;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* font-family: var(--font-reddit-sans), sans-serif; */
+  font-family: "Inter", sans-serif;
+}
+
+/* ---------- App loader ---------- */
+.app-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: #000000;
+}
+.app-loading-overlay .inner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* ----- Loader ----- */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4500;
+}
+.loader-container .loader {
+  width: 30px;
+  height: 30px;
+  margin: 0px auto;
+  border: 5px solid white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: block;
+  animation: rotation-loader 1s linear infinite;
+}
+@keyframes rotation-loader {
+  0% {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.video-js {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.video-js .vjs-tech {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
