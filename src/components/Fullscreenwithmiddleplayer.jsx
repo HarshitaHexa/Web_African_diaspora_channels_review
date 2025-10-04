@@ -14,46 +14,39 @@ export default function Fullscreenwithmiddleplayer({ videoDetails, onClose }) {
     if (!videoRef.current) return;
 
     if (!playerRef.current) {
-      const timer = setTimeout(() => {
-        const player = videojs(videoRef.current, {
-          controls: true,
-          autoplay: false,
-          muted: false,
-          preload: "auto",
-          playsinline: true,
-          fluid: true,
-          poster: videoDetails?.poster || "",
-          html5: {
-            vhs: {
-              enableLowInitialPlaylist: true,
-              smoothQualityChange: true,
-            },
+      const player = videojs(videoRef.current, {
+        controls: true,
+        autoplay: false,
+        muted: false,
+        preload: "auto",
+        playsinline: true,
+        fluid: true,
+        poster: videoDetails?.poster || "",
+        html5: {
+          vhs: {
+            enableLowInitialPlaylist: true,
+            smoothQualityChange: true,
           },
+        },
+      });
+
+      playerRef.current = player;
+
+      // Load source
+      if (videoDetails?.hls_stream) {
+        player.src({
+          src: videoDetails.hls_stream,
+          type: "application/x-mpegURL",
         });
+      }
 
-        playerRef.current = player;
-
-        // Load source
-        if (videoDetails?.hls_stream) {
-          player.src({
-            src: videoDetails.hls_stream,
-            type: "application/x-mpegURL",
-          });
-        }
-
-        player.ready(() => {
-          player.play().catch(() => console.log("Autoplay blocked"));
-        });
-      }, 50);
-
-      return () => {
-        clearTimeout(timer);
-        if (playerRef.current) {
-          playerRef.current.dispose();
-          playerRef.current = null;
-        }
-      };
+      player.ready(() => {
+        player.play().catch(() => console.log("Autoplay blocked"));
+      });
     }
+    // We want this to run only once on mount to initialize the player.
+    // The player is updated in a separate effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
