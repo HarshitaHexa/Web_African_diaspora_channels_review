@@ -14,34 +14,33 @@ export default function VideoPlayer({ videoDetails, onClose }) {
 
     // Only initialize once
     if (!playerRef.current) {
-      const timer = setTimeout(() => {
-        const player = videojs(videoRef.current, {
-          controls: true,
-          autoplay: false,
-          muted: false,
-          fluid: true,
-          preload: "auto",
-          playsinline: true,
-          poster: videoDetails?.poster || "",
+      const player = videojs(videoRef.current, {
+        controls: true,
+        autoplay: false,
+        muted: false,
+        fluid: true,
+        preload: "auto",
+        playsinline: true,
+        poster: videoDetails?.poster || "",
+      });
+
+      playerRef.current = player;
+
+      // Set initial source if available
+      if (videoDetails?.hls_stream) {
+        player.src({
+          src: videoDetails.hls_stream,
+          type: "application/x-mpegURL",
         });
 
-        playerRef.current = player;
-
-        // Set initial source if available
-        if (videoDetails?.hls_stream) {
-          player.src({
-            src: videoDetails.hls_stream,
-            type: "application/x-mpegURL",
-          });
-
-          player.ready(() => {
-            player.play().catch(() => console.log("Autoplay blocked"));
-          });
-        }
-      }, 50);
-
-      return () => clearTimeout(timer);
+        player.ready(() => {
+          player.play().catch(() => console.log("Autoplay blocked"));
+        });
+      }
     }
+    // We want this to run only once on mount to initialize the player.
+    // The player is updated in a separate effect.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update video source and poster on channel change
