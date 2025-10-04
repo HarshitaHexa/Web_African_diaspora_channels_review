@@ -1,19 +1,18 @@
 "use client";
-
-import { useState, useEffect } from "react";
-import BackgroundPlayer from "./background-player";
-import VideoPlayer from "./VideoPlayer";
-import Fullscreenwithmiddleplayer from "./Fullscreenwithmiddleplayer";
+import { useState } from "react";
+import BackgroundPlayer from "./BackgroundPlayer";
+import FullscreenPlayer from "./FullscreenPlayer";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 
 export default function MiddleSection({ videodata }) {
   const [playingUrl, setPlayingUrl] = useState(null);
+  useBodyScrollLock(!!playingUrl);
+
   const onStartPlayer = (url) => {
     setPlayingUrl(url);
-    document.body.classList.add("no-scroll"); //TODO: if no fullscreen videoplayer use then need to hide this
   };
   const onClosePlayer = () => {
     setPlayingUrl(null);
-    document.body.classList.remove("no-scroll"); //TODO: if no fullscreen videoplayer use then need to hide this
   };
 
   if (!videodata) return null;
@@ -36,7 +35,7 @@ export default function MiddleSection({ videodata }) {
               {videodata.description || ""}
             </p>
             <button
-              className="bg-[#4E915E] hover:bg-[#4E915E] text-black font-bold px-6 py-3 rounded-lg"
+              className="bg-theme-green hover:bg-theme-green-dark text-black font-bold px-6 py-3 rounded-lg"
               onClick={() => onStartPlayer(videodata.hls_stream)}
             >
               START WATCHING
@@ -46,13 +45,7 @@ export default function MiddleSection({ videodata }) {
       )}
       {/* Video Player Section*/}
       {playingUrl && (
-        <Fullscreenwithmiddleplayer // TODO: Need to change the component of videoplayer once it confirm
-          videoDetails={videodata}
-          onClose={onClosePlayer}
-        />
-        // <div className="relative z-20 w-full max-w-3xl mx-auto">
-        //   <VideoPlayer videoDetails={videodata} onClose={onClosePlayer} />
-        // </div>
+        <FullscreenPlayer videoDetails={videodata} onClose={onClosePlayer} />
       )}
     </section>
   );

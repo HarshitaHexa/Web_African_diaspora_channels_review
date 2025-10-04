@@ -1,30 +1,23 @@
 "use server";
-// API call
+
 const apiCall = async () => {
-  let url = `${process.env.NEXT_PUBLIC_JSON_URL}`;
-  // console.log("URL --- ", url);
+  const url = `${process.env.NEXT_PUBLIC_JSON_URL}`;
   const response = await fetch(url);
-  if (response.ok) {
-    if (response.status !== 204) {
-      const data = await response.json();
-      return data;
-    }
-    return {
-      data: null,
-    };
-  }
 
   if (!response.ok) {
-    let data = await response.json();
-    data = {
-      ...data,
-      statusCode: response.status,
-      statusText: response.statusText,
-    };
-    return data;
+    const errorData = await response.json().catch(() => ({})); // Gracefully handle non-JSON error responses
+    throw new Error(
+      `API call failed with status ${response.status}: ${
+        errorData.message || response.statusText
+      }`,
+    );
   }
-  const data = await response.json();
-  return data;
+
+  if (response.status === 204) {
+    return { data: null };
+  }
+
+  return response.json();
 };
 
 export default apiCall;

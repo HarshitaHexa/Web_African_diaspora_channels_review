@@ -6,7 +6,7 @@ export default function Header({ title, selectedIndex, onSelect }) {
     <header className="bg-black shadow-md sticky top-0 z-[1250] border-t border-gray-800">
       <div className="container px-8 mx-auto flex items-center justify-between py-3 space-x-6">
         <Image
-          src="/adc_logo.png"
+          src="/assets/adc_logo.png"
           alt="App Logo"
           width={100}
           height={80}

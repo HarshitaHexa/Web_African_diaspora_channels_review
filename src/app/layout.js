@@ -4,9 +4,9 @@ export const metadata = {
   title: "African Diaspora Channels",
   description: "African Diaspora Channels",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: "/assets/favicon.ico",
+    shortcut: "/assets/favicon.ico",
+    apple: "/assets/favicon.ico",
   },
 };
 

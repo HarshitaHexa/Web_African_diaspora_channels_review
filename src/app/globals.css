@@ -64,14 +64,6 @@ body {
   }
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
 .video-js {
   width: 100% !important;
   height: 100% !important;
@@ -81,8 +73,4 @@ body {
   object-fit: cover !important;
   width: 100% !important;
   height: 100% !important;
-}
-
-body.no-scroll {
-  overflow: hidden;
 }
